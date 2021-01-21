@@ -1,0 +1,102 @@
+~1~
+DECLARE
+    numer_max NUMBER;
+    d_name departments.department_name%TYPE:='EDUCATION';
+BEGIN
+    SELECT MAX(department_id) INTO numer_max FROM departments;
+    DBMS_OUTPUT.PUT_LINE('Max department id: ' || numer_max);
+    INSERT INTO departments
+    (department_id, department_name, manager_id, location_id)
+    VALUES
+    (numer_max+10, d_name, NULL, NULL);
+END;
+
+~2~
+DECLARE
+    numer_max NUMBER;
+    d_name departments.department_name%TYPE:='EDUCATION';
+BEGIN
+    SELECT MAX(department_id) INTO numer_max FROM departments;
+    DBMS_OUTPUT.PUT_LINE('Max department id: ' || numer_max);
+    INSERT INTO departments
+    (department_id, department_name, manager_id, location_id)
+    VALUES
+    (numer_max+10, d_name, NULL, NULL);
+    UPDATE departments 
+    SET location_id = 3000 
+    WHERE department_id=numer_max+10;
+END;
+
+~3~
+CREATE TABLE NOWA(
+    numer varchar(3)
+)
+
+BEGIN
+    FOR i IN 1..10 LOOP
+        IF (NOT (i=4 OR i=6)) THEN 
+            INSERT INTO NOWA VALUES (i);
+        END IF;
+    END LOOP;
+END;
+
+~4~
+
+DECLARE
+    row_values countries%ROWTYPE;
+BEGIN
+    SELECT * into row_values
+    FROM countries 
+    WHERE country_id = 'CA';
+    DBMS_OUTPUT.PUT_LINE('Country id' || row_values.region_id);
+    DBMS_OUTPUT.PUT_LINE('Country name' || row_values.country_name);
+END;
+
+~5~
+
+DECLARE
+   TYPE Zad5 IS TABLE OF departments.department_name%TYPE INDEX BY PLS_INTEGER;    
+   dept_list Zad5; 
+   counter NUMBER:=10;   
+BEGIN 
+     FOR i IN 1..10 LOOP
+       SELECT department_name INTO dept_list(i) FROM departments
+       WHERE department_id = counter;
+       counter := counter + 10;
+       DBMS_OUTPUT.put_line('Number' || dept_list(i));
+     END LOOP; 
+END;
+
+~6~
+
+DECLARE
+    TYPE Zad5 IS TABLE OF departments%ROWTYPE INDEX BY PLS_INTEGER;
+    dept_list Zad5;
+    counter NUMBER:=10;
+BEGIN
+    FOR i IN 1..10 LOOP
+        SELECT * INTO dept_list(i) FROM departments 
+        WHERE department_id=counter;
+        counter:=counter+10;
+        DBMS_OUTPUT.PUT_LINE(dept_list(i).department_id || ' ' || dept_list(i).department_name);
+    END LOOP;
+END;
+
+~7~
+
+DECLARE
+    CURSOR curs IS
+        SELECT salary, last_name FROM employees WHERE department_id=50;
+BEGIN
+    FOR person IN curs LOOP
+        IF person.salary > 3100 THEN 
+            dbms_output.put_line(person.last_name ||(person.salary || ' nie dawac podwyzki'));
+        ELSE 
+            dbms_output.put_line(person.last_name || (person.salary || ' dac podwyzke'));
+        END IF;
+    END LOOP;
+END;
+
+~8~
+
+~9~
